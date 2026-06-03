@@ -12,6 +12,7 @@ export default defineType({
       title: 'Name',
       type: 'string',
       description: 'Please use "Firstname Lastname" format',
+      validation: rule => rule.required()
     }),
     defineField({
       name: 'slug',
@@ -29,6 +30,32 @@ export default defineType({
       options: {
         hotspot: true,
       },
+    }),
+    defineField({
+      name: 'biography',
+      title: 'Biography',
+      type: 'internationalizedArrayText',
+      description: 'A short biography of this person',
+      validation: (rule) =>
+        rule.custom<{value: string; _type: string; _key: string}[]>((value) => {
+
+          if (!value) {
+            return 'Biography is required'
+          }
+
+          const invalidItems = value.filter(
+            (item) => !item.value,  // falsy value
+          )
+
+          if (invalidItems.length) {
+            return invalidItems.map((item) => ({
+              message: `${item._key.toLocaleUpperCase()} Biography is required`,
+              path: [{_key: item._key}, 'value'],
+            }))
+          }
+
+          return true
+        }),
     }),
   ],
   preview: {

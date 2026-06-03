@@ -61,6 +61,35 @@ export default defineType({
       type: 'array',
       of: [{type: 'crewMember'}],
     }),
+    defineField({
+      name: 'movieOrPersonType',
+      title: 'Movie or Person Type',
+      type: 'string',
+      options: {
+        list: [
+          {title: 'Movie', value: 'movie'},
+          {title: 'Person', value: 'person'},
+        ],
+      },
+    }),
+    // this doesnt filter the reference type only sets up the creation type
+    defineField({
+      name: 'movieOrPerson',
+      title: 'Movie or Person',
+      type: 'reference',
+      to: [{type: 'movie'}, {type: 'person'}],
+      options: {
+        creationTypeFilter: ({document}, toTypes) => {
+          if (document.movieOrPersonType === 'movie') {
+            return toTypes.filter((t) => t.type === 'movie')
+          }
+          if (document.movieOrPersonType === 'person') {
+            return toTypes.filter((t) => t.type === 'person')
+          }
+          return toTypes
+        },
+      },
+    })
   ],
   preview: {
     select: {
