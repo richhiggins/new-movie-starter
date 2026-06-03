@@ -1,0 +1,13 @@
+{
+  "name": "nightly-dataset-backup",
+  "private": true,
+  "version": "1.0.0",
+  "type": "module",
+  "main": "index.ts",
+  "dependencies": {
+    "@sanity/client": "^7.13.0",
+    "@sanity/export": "^6.2.0",
+    "@sanity/functions": "^1.1.0",
+    "dotenv": "^17.4.2"
+  }
+}
